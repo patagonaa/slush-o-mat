@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Slush-o-Mat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+    <form id="main-form">
+        <h1 class="rainbow-text">Slush-o-Mat</h1>
+        <div class="form-group">
+            <label>Zuckergehalt (Getränk):</label>
+            <div class="input-group">
+                <input type="number" class="form-control" data-bind="value: sugarGPer100ml" />
+                <div class="input-group-append">
+                    <span class="input-group-text">g/100ml</span>
+                </div>
+            </div>
+            <label>Menge gesamt:</label>
+            <div class="input-group">
+                <input type="number" class="form-control" step="0.01" data-bind="value: quantityTotalL" />
+                <div class="input-group-append">
+                    <span class="input-group-text">l</span>
+                </div>
+            </div>
+            <label>benötigter Zuckergehalt:</label>
+            <div class="input-group">
+                <input type="number" class="form-control" data-bind="value: requiredSugarGL" />
+                <div class="input-group-append">
+                    <span class="input-group-text">g/l</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Zucker insgesamt nötig:</label>
+            <div class="input-group">
+                <input type="text" class="form-control" readonly data-bind="floatText: requiredSugarTotalG, decimals: 0" />
+                <div class="input-group-append">
+                    <span class="input-group-text">g</span>
+                </div>
+            </div>
+
+            <label>Zucker enthalten:</label>
+            <div class="input-group">
+                <input type="text" class="form-control" readonly data-bind="floatText: includedSugarG, decimals: 0" />
+                <div class="input-group-append">
+                    <span class="input-group-text">g</span>
+                </div>
+            </div>
+
+            <label>Zucker nachschütten:</label>
+            <div class="input-group">
+                <input type="text" class="form-control" readonly data-bind="floatText: sugarToAddG, decimals: 0" />
+                <div class="input-group-append">
+                    <span class="input-group-text">g</span>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>

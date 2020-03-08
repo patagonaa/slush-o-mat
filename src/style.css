@@ -1,0 +1,49 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  -ms-flex-align: center;
+  -ms-flex-pack: center;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+}
+
+#main-form{
+    width: 100%;
+    max-width: 500px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.rainbow-text {
+    background-image: repeating-linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red, violet);
+    text-align: center;
+    background-size: 800% 800%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    font-size: 70px;
+    color: transparent;
+    animation: rainbow 8s ease infinite;
+}
+
+  @media (max-width: 500px) {
+    .rainbow-text {
+        font-size: 50px;
+      }
+  }
+  
+  @keyframes rainbow { 
+      0%{background-position:0% 50%}
+      50%{background-position:100% 25%}
+      100%{background-position:0% 50%}
+  }
