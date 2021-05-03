@@ -30,9 +30,9 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "./src/index.html"
         }),
-        new CopyWebpackPlugin([
+        new CopyWebpackPlugin({patterns: [
             {from:'./src/icon.png'}
-        ])
+        ]})
     ],
     devServer: {
         contentBase: path.join(__dirname, 'src'),
