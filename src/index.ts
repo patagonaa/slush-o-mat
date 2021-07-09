@@ -24,7 +24,8 @@ class SlushViewModel {
     public requiredSugarTotalG = ko.computed<number>(() => this.quantityTotalL() * this.requiredSugarGL());
 
     public includedSugarG = ko.computed<number>(() => this.sugarGPer100ml() * 10 * this.quantityTotalL());
-    public sugarToAddG = ko.computed<number>(() => this.requiredSugarTotalG() - this.includedSugarG());
+    public sugarToAddG = ko.computed<number>(() => Math.max(this.requiredSugarTotalG() - this.includedSugarG(), 0));
+    public waterToAddL = ko.computed<number>(() => Math.max(((this.sugarGPer100ml() * 10) / this.requiredSugarGL() * this.quantityTotalL()) - this.quantityTotalL(), 0));
 }
 
 ko.applyBindings(new SlushViewModel(), document.getElementById("main-form"));
