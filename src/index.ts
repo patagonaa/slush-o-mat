@@ -17,6 +17,28 @@ ko.bindingHandlers.floatText = {
 };
 
 class SlushViewModel {
+    constructor() {
+        this.loadStateFromHash();
+        this.sugarGPer100ml.subscribe(() => this.saveStateToHash());
+    }
+
+    private saveStateToHash() {
+        window.location.hash = `sugarGPer100ml=${this.sugarGPer100ml().toString()}`;
+    }
+
+    private loadStateFromHash() {
+        let decodedHash = window.location.hash;
+        if (decodedHash == null)
+            return;
+
+        let matches = decodedHash.match(/sugarGPer100ml=([^&]+)/);
+        if (matches == null)
+            return;
+
+        this.sugarGPer100ml(parseFloat(matches[1]));
+    }
+
+
     public sugarGPer100ml = ko.observable<number>();
     public quantityTotalL = ko.observable<number>(5.0);
     public requiredSugarGL = ko.observable<number>(140);
