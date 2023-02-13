@@ -11,25 +11,35 @@
 <body>
     <form id="main-form">
         <img class="icon" src="icon.png"/>
-        <h1 class="rainbow-text">Slush-o-Mat</h1>
+        <header>
+            <h1 class="rainbow-text">Slush-o-Mat</h1>
+            <small class="description">
+                Warum? Slush-Eis braucht eine gewisse Menge <abbr title="(oder z.B. Ethanol)">Zucker</abbr>, damit die richtige Konsistenz erreicht wird.
+                Dieser Rechner vereinfacht diese Berechnung.
+            </small>    
+        </header>
         <div class="form-group">
             <label>Zuckergehalt (Getränk):</label>
             <div class="input-group">
-                <input type="number" class="form-control" data-bind="value: sugarGPer100ml" />
+                <input type="number" class="form-control" data-bind="textInput: sugarGPer100ml" />
                 <div class="input-group-append">
                     <span class="input-group-text">g/100ml</span>
                 </div>
             </div>
+        </div>
+        <div class="form-group">
             <label>Menge gesamt:</label>
             <div class="input-group">
-                <input type="number" class="form-control" step="0.1" data-bind="value: quantityTotalL" />
+                <input type="number" class="form-control" step="0.1" data-bind="textInput: quantityTotalL" />
                 <div class="input-group-append">
                     <span class="input-group-text">l</span>
                 </div>
             </div>
+        </div>
+        <div class="form-group">
             <label>benötigter Zuckergehalt:</label>
             <div class="input-group">
-                <input type="number" class="form-control" data-bind="value: requiredSugarGL" />
+                <input type="number" class="form-control" data-bind="textInput: requiredSugarGL" />
                 <div class="input-group-append">
                     <span class="input-group-text">g/l</span>
                 </div>
@@ -43,7 +53,8 @@
                     <span class="input-group-text">g</span>
                 </div>
             </div>
-
+        </div>
+        <div class="form-group">
             <label>Zucker enthalten:</label>
             <div class="input-group">
                 <input type="text" class="form-control" readonly data-bind="floatText: includedSugarG, decimals: 0" />
@@ -51,7 +62,8 @@
                     <span class="input-group-text">g</span>
                 </div>
             </div>
-
+        </div>
+        <div class="form-group">
             <label>Zucker nachschütten:</label>
             <div class="input-group">
                 <input type="text" class="form-control" readonly data-bind="floatText: sugarToAddG, decimals: 0" />
@@ -59,7 +71,8 @@
                     <span class="input-group-text">g</span>
                 </div>
             </div>
-
+        </div>
+        <div class="form-group">
             <label>Wasser nachschütten:</label>
             <div class="input-group">
                 <input type="text" class="form-control" readonly data-bind="floatText: waterToAddL, decimals: 1" />
@@ -68,7 +81,12 @@
                 </div>
             </div>
         </div>
-        <small class="attribution">Icon made by <a href="https://www.flaticon.com/authors/freepik">freepik</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a></small>
+        <footer>
+            <small class="attribution">
+                <a href="https://github.com/patagonaa/slush-o-mat">https://github.com/patagonaa/slush-o-mat</a><br/>
+                Icon made by <a href="https://www.flaticon.com/authors/freepik">freepik</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a>
+            </small>
+        </footer>
     </form>
 </body>
 

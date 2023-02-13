@@ -31,13 +31,26 @@ body {
 
 .rainbow-text {
     background-image: repeating-linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red, violet);
-    text-align: center;
     background-size: 800% 800%;
     background-clip: text;
     -webkit-background-clip: text;
     font-size: 70px;
     color: transparent;
     animation: rainbow 8s ease infinite;
+    margin-bottom: 0;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    margin-bottom: 0.5rem;
+}
+
+.form-group label {
+    margin-bottom: 0.25rem;
 }
 
 @media (max-width: 500px) {
@@ -50,9 +63,11 @@ body {
     0% {
         background-position: 0% 50%
     }
+
     50% {
         background-position: 100% 25%
     }
+
     100% {
         background-position: 0% 50%
     }
