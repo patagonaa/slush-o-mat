@@ -18,48 +18,52 @@
                 Dieser Rechner vereinfacht diese Berechnung.
             </small>    
         </header>
+        <div data-bind="foreach: ingredients">
+            <div class="form-group form-row">
+                <div class="input-group col-sm-3">
+                    <select class="form-control" data-bind="value: ingredientType">
+                        <option value="sugar">Zucker</option>
+                        <option value="ethanol">Ethanol</option>
+                    </select>
+                </div>
+                <div class="input-group col">
+                    <input type="number" class="form-control" data-bind="textInput: fraction" />
+                    <div class="input-group-append">
+                        <span class="input-group-text" data-bind="text: getUnitForIngredient(ingredientType())">g/100ml</span>
+                    </div>
+                </div>
+                <div class="input-group col-sm-3">
+                    <input type="number" class="form-control" step="0.1" data-bind="textInput: totalAmount" />
+                    <div class="input-group-append">
+                        <span class="input-group-text">l</span>
+                    </div>
+                </div>
+                <div class="input-group col-sm-2">
+                    <button class="btn btn-danger form-control" data-bind="click: function(){$parent.deleteIngredient($index());}">🗑️</button>
+                </div>
+            </div>
+            <hr class="d-block d-sm-none">
+        </div>
         <div class="form-group">
-            <label>Zuckergehalt (Getränk):</label>
             <div class="input-group">
-                <input type="number" class="form-control" data-bind="textInput: sugarGPer100ml" />
+                <button class="btn btn-success form-control" data-bind="click: addIngredient">+</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>gewünschter Gefrierpunkt:</label>
+            <div class="input-group">
+                <input type="number" class="form-control" step="0.001" data-bind="textInput: requiredFreezingPoint" />
                 <div class="input-group-append">
-                    <span class="input-group-text">g/100ml</span>
+                    <span class="input-group-text">°C</span>
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <label>Menge gesamt:</label>
+            <label>Gefrierpunkt:</label>
             <div class="input-group">
-                <input type="number" class="form-control" step="0.1" data-bind="textInput: quantityTotalL" />
+                <input type="text" class="form-control" readonly data-bind="floatText: freezingPoint, decimals: 2" />
                 <div class="input-group-append">
-                    <span class="input-group-text">l</span>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>benötigter Zuckergehalt:</label>
-            <div class="input-group">
-                <input type="number" class="form-control" data-bind="textInput: requiredSugarGL" />
-                <div class="input-group-append">
-                    <span class="input-group-text">g/l</span>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Zucker insgesamt nötig:</label>
-            <div class="input-group">
-                <input type="text" class="form-control" readonly data-bind="floatText: requiredSugarTotalG, decimals: 0" />
-                <div class="input-group-append">
-                    <span class="input-group-text">g</span>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Zucker enthalten:</label>
-            <div class="input-group">
-                <input type="text" class="form-control" readonly data-bind="floatText: includedSugarG, decimals: 0" />
-                <div class="input-group-append">
-                    <span class="input-group-text">g</span>
+                    <span class="input-group-text">°C</span>
                 </div>
             </div>
         </div>
