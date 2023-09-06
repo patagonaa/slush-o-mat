@@ -16,15 +16,61 @@ ko.bindingHandlers.floatText = {
     }
 };
 
-class SlushViewModel {
-    constructor() {
-        this.loadStateFromHash();
-        this.sugarGPer100ml.subscribe(() => this.saveStateToHash());
+type IngredientType = 'sugar' | 'ethanol';
+
+const sugarGPerMol = 342.3; // g/mol
+
+const ethanolDensity = 0.7893 * 1000; // g/l
+const ethanolGPerMol = 46.07; // g/mol
+
+class Ingredient {
+    public ingredientType: KnockoutObservable<IngredientType> = ko.observable<IngredientType>('sugar');
+    public fraction: KnockoutObservable<string> = ko.observable('');
+    public totalAmount: KnockoutObservable<string> = ko.observable('5');
+    public molWeight = ko.pureComputed(() => {
+        const ingredientType = this.ingredientType();
+
+        if (ingredientType == "sugar") {
+            const sugarGPer100ml = +this.fraction();
+            const sugarGTotal = sugarGPer100ml * 10 * +this.totalAmount();
+            return sugarGTotal / sugarGPerMol; // g/mol
+        } else if (ingredientType == "ethanol") {
+            const ethanolVolFraction = +this.fraction() / 100;
+            const ethanolGramTotal = ethanolVolFraction * ethanolDensity * +this.totalAmount();
+            return ethanolGramTotal / ethanolGPerMol; 
+        }
+    });
+
+    private units = {
+        "sugar": { unit: 'g/100ml' },
+        "ethanol": { unit: '%vol' }
     }
 
-    private saveStateToHash() {
-        window.location.hash = `sugarGPer100ml=${this.sugarGPer100ml().toString()}`;
+    public getUnitForIngredient(type: IngredientType) {
+        return this.units[type].unit;
     }
+}
+
+const freezingPointDepressionWater = -1.86; // K*kg/mol
+class SlushViewModel {
+    public ingredients: KnockoutObservableArray<Ingredient> = ko.observableArray<Ingredient>();
+
+    constructor() {
+        this.addIngredient();
+        this.loadStateFromHash();
+    }
+
+    public addIngredient() {
+        this.ingredients.push(new Ingredient());
+    }
+
+    public deleteIngredient(index: number){
+        this.ingredients.splice(index, 1);
+    }
+
+    // private saveStateToHash() {
+    //     window.location.hash = `sugarGPer100ml=${this.sugarGPer100ml().toString()}`;
+    // }
 
     private loadStateFromHash() {
         let decodedHash = window.location.hash;
@@ -35,19 +81,20 @@ class SlushViewModel {
         if (matches == null)
             return;
 
-        this.sugarGPer100ml(parseFloat(matches[1]));
+        this.ingredients()[0].fraction(''+parseFloat(matches[1]));
     }
 
+    public molWeightTotal = ko.pureComputed(() => this.ingredients().map(x => +x.molWeight()).reduce((x, y) => x + y, 0));
+    public quantityTotalL = ko.pureComputed(() => this.ingredients().map(x => +x.totalAmount()).reduce((x, y) => x + y, 0));
+    public freezingPoint = ko.pureComputed(() => freezingPointDepressionWater * (this.molWeightTotal() / this.quantityTotalL()));
 
-    public sugarGPer100ml = ko.observable<number>();
-    public quantityTotalL = ko.observable<number>(5.0);
-    public requiredSugarGL = ko.observable<number>(140);
+    public requiredFreezingPoint = ko.observable(-0.761);
 
-    public requiredSugarTotalG = ko.computed<number>(() => this.quantityTotalL() * this.requiredSugarGL());
+    public requiredMolWeight = ko.pureComputed(() => this.requiredFreezingPoint() * this.quantityTotalL() / freezingPointDepressionWater);
+    public sugarToAddG = ko.pureComputed(() => Math.max((this.requiredMolWeight() - this.molWeightTotal()) * sugarGPerMol, 0));
 
-    public includedSugarG = ko.computed<number>(() => this.sugarGPer100ml() * 10 * this.quantityTotalL());
-    public sugarToAddG = ko.computed<number>(() => Math.max(this.requiredSugarTotalG() - this.includedSugarG(), 0));
-    public waterToAddL = ko.computed<number>(() => Math.max(((this.sugarGPer100ml() * 10) / this.requiredSugarGL() * this.quantityTotalL()) - this.quantityTotalL(), 0));
+    public requiredWater = ko.pureComputed(() => freezingPointDepressionWater * (this.molWeightTotal() / this.requiredFreezingPoint()));
+    public waterToAddL = ko.pureComputed(() => Math.max(this.requiredWater() - this.quantityTotalL(), 0));
 }
 
 ko.applyBindings(new SlushViewModel(), document.getElementById("main-form"));
